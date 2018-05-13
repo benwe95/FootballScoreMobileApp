@@ -30,18 +30,6 @@
 
 
     <Button
-        android:id="@+id/buttonQuiz"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/buttonQuiz"
-        android:textSize="20sp"
-        android:textColor="#ffffff"
-        android:layout_gravity="center_horizontal"
-        android:background="#191970"
-        android:layout_margin="20sp"
-        android:padding="20sp"/>
-
-    <Button
         android:id="@+id/buttonFavorite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

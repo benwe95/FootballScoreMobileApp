@@ -11,7 +11,6 @@ import android.content.Intent;
 public class MainActivity extends Activity implements View.OnClickListener {
 
     private Button buttonSearch = null;
-    private Button buttonQuiz = null;
     private Button buttonFavorite = null;
 
     @Override
@@ -22,8 +21,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         buttonSearch = (Button) findViewById(R.id.buttonSearch);
         buttonSearch.setOnClickListener(this);
-        buttonQuiz = (Button) findViewById(R.id.buttonQuiz);
-        buttonQuiz.setOnClickListener(this);
         buttonFavorite = (Button) findViewById(R.id.buttonFavorite);
         buttonFavorite.setOnClickListener(this);
     }
@@ -38,10 +35,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 startActivity(champChoiceActivity );
                 break;
 
-            case R.id.buttonQuiz:
-                break;
-
             case R.id.buttonFavorite:
+                Intent favoriteActivity = new Intent(MainActivity.this, FavoriteActivity.class);
+                startActivity(favoriteActivity);
                 break;
         }
     }
