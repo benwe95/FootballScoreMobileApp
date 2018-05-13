@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dateChoice"
+        android:textSize="30sp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:padding="15dp"
+        tools:context=".MainActivity"> </TextView>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#191970"
+            android:layout_gravity="center_horizontal"
+            android:textSize="20dp"
+            android:text="@string/from" >
+        </TextView>
+
+        <DatePicker
+            android:id="@+id/from"
+            android:layout_width="230dp"
+            android:layout_height="150dp"
+            android:endYear="2100"
+            android:startYear="1900"
+            android:datePickerMode="spinner"
+            android:layout_gravity="center_horizontal"
+            android:calendarViewShown="false">
+        </DatePicker>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#191970"
+            android:layout_gravity="center_horizontal"
+            android:textSize="20dp"
+            android:text="@string/to" >
+        </TextView>
+
+        <DatePicker
+            android:id="@+id/to"
+            android:layout_width="230dp"
+            android:layout_height="150dp"
+            android:endYear="2100"
+            android:startYear="1900"
+            android:datePickerMode="spinner"
+            android:layout_gravity="center_horizontal"
+            android:calendarViewShown="false">
+        </DatePicker>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/dateChoice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/submit"
+        android:textSize="20sp"
+        android:textColor="#ffffff"
+        android:layout_gravity="center_horizontal"
+        android:background="#191970"/>
+
+
+</LinearLayout>
