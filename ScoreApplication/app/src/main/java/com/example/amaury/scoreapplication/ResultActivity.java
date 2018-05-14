@@ -1,7 +1,9 @@
 package com.example.amaury.scoreapplication;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;;
@@ -36,6 +38,25 @@ public class ResultActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        String theme = sharedPreferences.getString("color", "");
+
+        switch (theme){
+            case "blue":
+                setTheme(R.style.AppTheme);
+                break;
+
+            case "red":
+                setTheme(R.style.AppThemeRed);
+                break;
+
+            case "green":
+                setTheme(R.style.AppThemeGreen);
+                break;
+        }
+
         setContentView(R.layout.result_activity);
 
         mDisplay = (ListView) findViewById(R.id.simpletext);

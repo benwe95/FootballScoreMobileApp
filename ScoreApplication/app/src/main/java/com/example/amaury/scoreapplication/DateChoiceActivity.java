@@ -2,7 +2,9 @@ package com.example.amaury.scoreapplication;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -22,6 +24,24 @@ public class DateChoiceActivity extends Activity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        String theme = sharedPreferences.getString("color", "");
+
+        switch (theme){
+            case "blue":
+                setTheme(R.style.AppTheme);
+                break;
+
+            case "red":
+                setTheme(R.style.AppThemeRed);
+                break;
+
+            case "green":
+                setTheme(R.style.AppThemeGreen);
+                break;
+        }
 
         setContentView(R.layout.date_choice);
 

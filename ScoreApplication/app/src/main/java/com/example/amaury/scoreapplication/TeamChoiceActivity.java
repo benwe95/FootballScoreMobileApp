@@ -1,7 +1,9 @@
 package com.example.amaury.scoreapplication;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -49,6 +51,24 @@ public class TeamChoiceActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+
+        // Set the theme
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String theme = sharedPreferences.getString("color", "");
+
+        switch (theme){
+            case "blue":
+                setTheme(R.style.AppTheme);
+                break;
+
+            case "red":
+                setTheme(R.style.AppThemeRed);
+                break;
+
+            case "green":
+                setTheme(R.style.AppThemeGreen);
+                break;
+        }
 
         // Set the layout and the listenener
         setContentView(R.layout.lorem_activity);

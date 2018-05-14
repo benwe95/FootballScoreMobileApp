@@ -1,7 +1,9 @@
 package com.example.amaury.scoreapplication;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -22,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONArray;
 
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 public class ChampChoiceActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -36,6 +39,24 @@ public class ChampChoiceActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        String theme = sharedPreferences.getString("color", "");
+
+        switch (theme){
+            case "blue":
+                setTheme(R.style.AppTheme);
+                break;
+
+            case "red":
+                setTheme(R.style.AppThemeRed);
+                break;
+
+            case "green":
+                setTheme(R.style.AppThemeGreen);
+                break;
+        }
         setContentView(R.layout.competition_choice);
 
         buttonCompet = (Button) findViewById(R.id.buttonCompetChoice);

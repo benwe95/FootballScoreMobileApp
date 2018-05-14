@@ -20,7 +20,6 @@
         android:textSize="20sp"
         android:textColor="#ffffff"
         android:layout_gravity="center|bottom"
-        android:background="#191970"
         android:layout_margin="20sp"
         android:padding="20sp"/>
 

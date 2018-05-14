@@ -2,7 +2,9 @@ package com.example.amaury.scoreapplication;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -32,6 +34,24 @@ public class FavoriteActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        String theme = sharedPreferences.getString("color", "");
+
+        switch (theme){
+            case "blue":
+                setTheme(R.style.AppTheme);
+                break;
+
+            case "red":
+                setTheme(R.style.AppThemeRed);
+                break;
+
+            case "green":
+                setTheme(R.style.AppThemeGreen);
+                break;
+        }
 
         setContentView(R.layout.activity_favorite);
         mDisplay = (ListView) findViewById(R.id.listViewTeams);
@@ -68,7 +88,6 @@ public class FavoriteActivity extends Activity implements View.OnClickListener {
             {
                 String[] tokens= teamLines[i].split(",");
 
-                Toast.makeText(FavoriteActivity.this, tokens[0]+" - "+tokens[1], Toast.LENGTH_SHORT).show();
                 competitionIdList.add(tokens[0]);
                 teamsList.add(tokens[1]);
 

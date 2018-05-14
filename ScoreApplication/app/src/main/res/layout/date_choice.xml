@@ -83,8 +83,7 @@
         android:text="@string/submit"
         android:textSize="20sp"
         android:textColor="#ffffff"
-        android:layout_gravity="center_horizontal"
-        android:background="#191970"/>
+        android:layout_gravity="center_horizontal"/>
 
 
 </LinearLayout>
