@@ -27,6 +27,8 @@ public class ChampChoiceActivity extends AppCompatActivity implements View.OnCli
 
     protected ListView mDisplay = null;
     Button buttonCompet = null;
+    String mode = null;
+    Intent i = null;
 
     protected List<String> competitionsList = new ArrayList<String>();
     protected List<String> competitionIdList = new ArrayList<String>();
@@ -40,10 +42,13 @@ public class ChampChoiceActivity extends AppCompatActivity implements View.OnCli
         buttonCompet.setOnClickListener(this);
 
         mDisplay = (ListView) findViewById(R.id.listViewCompet);
+
     }
 
     @Override
     protected void onStart() {
+        i = getIntent();
+        mode = i.getStringExtra("MODE");
         super.onStart();
         String url = "https://apifootball.com/api/?action=get_leagues&APIkey=964f51a4dab3b0ae2482cbb6bd9a7a162e8786bbc1f72b73ae311bbb824794dd";
         new QueryTask().execute(url);
@@ -59,6 +64,7 @@ public class ChampChoiceActivity extends AppCompatActivity implements View.OnCli
             String competitionId = competitionIdList.get(selecteditemIndex);
 
             teamChoiceActivity.putExtra("COMPETITION", competitionId);
+            teamChoiceActivity.putExtra("MODE", mode);
 
             startActivity(teamChoiceActivity);
         }

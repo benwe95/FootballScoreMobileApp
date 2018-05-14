@@ -32,6 +32,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
             case R.id.buttonSearch:
                 Intent champChoiceActivity = new Intent(MainActivity.this, ChampChoiceActivity.class);
+                champChoiceActivity.putExtra("MODE", "search");
                 startActivity(champChoiceActivity );
                 break;
 

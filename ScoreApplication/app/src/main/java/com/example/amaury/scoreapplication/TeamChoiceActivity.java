@@ -1,6 +1,5 @@
 package com.example.amaury.scoreapplication;
 
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,8 +7,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -17,27 +14,43 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import org.json.JSONObject;
 import org.json.JSONException;
 import org.json.JSONArray;
 
 import android.os.AsyncTask;
+import android.os.Environment;
 
 public class TeamChoiceActivity extends AppCompatActivity implements View.OnClickListener{
 
+    // Layout variable
     protected ListView mDisplay = null;
     private Button buttonTeam = null;
+
+    // Intent variable
     private Intent i = null;
     private  String competition_id = null;
+    String mode = null;
+
+    // List for the ListView
     protected List<String> names = new ArrayList<String>();
+
+    // File variable
+    File file = null;
+    String destinationFile = "favorites.txt";
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+
+        // Set the layout and the listenener
         setContentView(R.layout.lorem_activity);
 
         mDisplay = (ListView) findViewById(R.id.listView);
@@ -45,8 +58,13 @@ public class TeamChoiceActivity extends AppCompatActivity implements View.OnClic
         buttonTeam = (Button) findViewById(R.id.buttonTeamChoice);
         buttonTeam.setOnClickListener(this);
 
+        // Get data from the intent
         i = getIntent();
         competition_id = i.getStringExtra("COMPETITION");
+        mode = i.getStringExtra("MODE");
+
+        // File to save favorite (if favorite mode)
+        file = new File(Environment.getExternalStorageDirectory().getPath() + "/Android/data/ " + getPackageName() + "/files/" + destinationFile);
     }
 
     @Override
@@ -59,18 +77,51 @@ public class TeamChoiceActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View v){
+        // Check the button id
         if(v.getId() == R.id.buttonTeamChoice) {
-            Intent dateChoiceActivity = new Intent(TeamChoiceActivity.this,
-                    DateChoiceActivity.class);
-
-            dateChoiceActivity.putExtra("COMPETITION", competition_id);
-
+            // Recuperate the name of selected item
             int selecteditemIndex = mDisplay.getCheckedItemPosition();
             String selectedItem = names.get(selecteditemIndex);
 
-            dateChoiceActivity.putExtra("TEAM", selectedItem);
+            // If we are in the score search mode
+            if(mode.equals("search")) {
+                // Send data and go to the date choice activity
+                Intent dateChoiceActivity = new Intent(TeamChoiceActivity.this,
+                        DateChoiceActivity.class);
 
-            startActivity(dateChoiceActivity);
+                dateChoiceActivity.putExtra("COMPETITION", competition_id);
+                dateChoiceActivity.putExtra("TEAM", selectedItem);
+
+                startActivity(dateChoiceActivity);
+            }
+
+            //
+            else if(mode.equals("addFavorite")){
+               try {
+                    // Internal Storage
+                    FileOutputStream output = openFileOutput(destinationFile, MODE_APPEND);
+                    String toWrite = competition_id + "," + selectedItem + ";";
+
+                    // Write the data in hard
+                    output.write(toWrite.getBytes());
+
+                    if(output != null) {
+                        output.close();
+                    }
+                   Toast.makeText(TeamChoiceActivity.this, "favorite stored", Toast.LENGTH_SHORT).show();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    Toast.makeText(TeamChoiceActivity.this, "The storage has failed", Toast.LENGTH_SHORT).show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                // Return to the favorites activity
+                Intent favoriteActivity = new Intent(TeamChoiceActivity.this,
+                        FavoriteActivity.class);
+                startActivity(favoriteActivity);
+            }
+
         }
     }
 
@@ -84,6 +135,7 @@ public class TeamChoiceActivity extends AppCompatActivity implements View.OnClic
         }
 
         @Override
+        // Get the url and executate the http request
         protected String doInBackground(String... params) {
             String searchUrl = params[0];
             String queryResults = null;
@@ -96,10 +148,12 @@ public class TeamChoiceActivity extends AppCompatActivity implements View.OnClic
         }
 
         @Override
+        // After request processing
         protected void onPostExecute(String queryResults) {
             if (queryResults != null && !queryResults.equals("")) {
 
                 try{
+                    // Get the list of the teams and go through
                     JSONArray teams = new JSONArray(queryResults);
 
                     for (int i = 0; i < teams.length(); i++){
@@ -110,34 +164,38 @@ public class TeamChoiceActivity extends AppCompatActivity implements View.OnClic
 
                 }catch (final JSONException e) { }
 
+                // Create the adaptater and give it to the adaptaterView
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(TeamChoiceActivity.this,
                         android.R.layout.simple_list_item_single_choice, names);
                 mDisplay.setAdapter(adapter);
             }
         }
 
+        // Get http request
         protected String getResponseFromHttpUrl(String url)
-                throws IOException {
+            throws IOException {
 
-            URL urlObject = new URL(url);
+                URL urlObject = new URL(url);
 
-            HttpURLConnection urlConnection = (HttpURLConnection) urlObject.openConnection();
+                // Create connection to the url
+                HttpURLConnection urlConnection = (HttpURLConnection) urlObject.openConnection();
 
-            try {
-                InputStream in = urlConnection.getInputStream();
+                try {
+                    InputStream in = urlConnection.getInputStream();
 
-                Scanner scanner = new Scanner(in);
-                scanner.useDelimiter("\\A");
+                    // Scan the response
+                    Scanner scanner = new Scanner(in);
+                    scanner.useDelimiter("\\A");
 
-                boolean hasInput = scanner.hasNext();
-                if (hasInput) {
-                    return scanner.next();
-                } else {
-                    return null;
+                    boolean hasInput = scanner.hasNext();
+                    if (hasInput) {
+                        return scanner.next();
+                    } else {
+                        return null;
+                    }
+                } finally {
+                    urlConnection.disconnect();
                 }
-            } finally {
-                urlConnection.disconnect();
-            }
         }
     }
 }
