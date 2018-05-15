@@ -1,6 +1,8 @@
 package com.example.amaury.scoreapplication;
 
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.app.Activity;
 import android.os.Environment;
@@ -78,9 +80,18 @@ public class MainActivity extends Activity implements View.OnClickListener,
         switch(v.getId()){
 
             case R.id.buttonSearch:
-                Intent champChoiceActivity = new Intent(MainActivity.this, ChampChoiceActivity.class);
-                champChoiceActivity.putExtra("MODE", "search");
-                startActivity(champChoiceActivity );
+                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+                if(networkInfo != null && networkInfo.isAvailable() && networkInfo.isConnected()) {
+                    Intent champChoiceActivity = new Intent(MainActivity.this, ChampChoiceActivity.class);
+                    champChoiceActivity.putExtra("MODE", "search");
+                    startActivity(champChoiceActivity);
+                }
+                else
+                {
+                    Toast.makeText(MainActivity.this, "No available connection", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             case R.id.buttonFavorite:
