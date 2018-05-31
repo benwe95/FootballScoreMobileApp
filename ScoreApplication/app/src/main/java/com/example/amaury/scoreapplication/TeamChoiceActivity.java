@@ -90,7 +90,7 @@ public class TeamChoiceActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onStart(){
         super.onStart();
-        String output = String.format("https://apifootball.com/api/?action=get_standings&league_id=%s&APIkey=964f51a4dab3b0ae2482cbb6bd9a7a162e8786bbc1f72b73ae311bbb824794dd",
+        String output = String.format("https://apifootball.com/api/?action=get_standings&league_id=%s&APIkey=0a7af79b20e1367a88d2cc1ea922772ed88fb437ef3b6048229d65753ed139c1",
                 competition_id);
         new QueryTask().execute(output);
     }

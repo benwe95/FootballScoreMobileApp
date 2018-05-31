@@ -71,7 +71,7 @@ public class ChampChoiceActivity extends AppCompatActivity implements View.OnCli
         i = getIntent();
         mode = i.getStringExtra("MODE");
         super.onStart();
-        String url = "https://apifootball.com/api/?action=get_leagues&APIkey=964f51a4dab3b0ae2482cbb6bd9a7a162e8786bbc1f72b73ae311bbb824794dd";
+        String url = "https://apifootball.com/api/?action=get_leagues&APIkey=0a7af79b20e1367a88d2cc1ea922772ed88fb437ef3b6048229d65753ed139c1";
         new QueryTask().execute(url);
     }
 

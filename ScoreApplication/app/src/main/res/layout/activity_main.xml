@@ -51,5 +51,16 @@
         android:padding="20sp"/>
 
 
+    <Button
+        android:id="@+id/buttonOffline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/buttonOffline"
+        android:textSize="20sp"
+        android:textColor="#ffffff"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="20sp"
+        android:padding="20sp"/>
+
 </LinearLayout>
 
