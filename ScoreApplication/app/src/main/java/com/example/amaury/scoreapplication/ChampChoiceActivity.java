@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -29,6 +30,9 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 public class ChampChoiceActivity extends AppCompatActivity implements View.OnClickListener{
+
+    final static String STATE_COMPETITON_LISTE = "competition_list";
+    final static String STATE_ID_LISTE = "id_list";
 
     protected ListView mDisplay = null;
     Button buttonCompet = null;
@@ -59,23 +63,37 @@ public class ChampChoiceActivity extends AppCompatActivity implements View.OnCli
                 setTheme(R.style.AppThemeGreen);
                 break;
         }
+
+
+        if (savedInstanceState!=null){
+            competitionsList = savedInstanceState.getStringArrayList(STATE_COMPETITON_LISTE);
+            competitionIdList = savedInstanceState.getStringArrayList(STATE_ID_LISTE);
+        }else{
+            i = getIntent();
+            mode = i.getStringExtra("MODE");
+            String url = "https://apifootball.com/api/?action=get_leagues&APIkey=0a7af79b20e1367a88d2cc1ea922772ed88fb437ef3b6048229d65753ed139c1";
+            new QueryTask().execute(url);
+        }
+
         setContentView(R.layout.competition_choice);
 
         buttonCompet = (Button) findViewById(R.id.buttonCompetChoice);
         buttonCompet.setOnClickListener(this);
 
         mDisplay = (ListView) findViewById(R.id.listViewCompet);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(ChampChoiceActivity.this,
+                android.R.layout.simple_list_item_single_choice, competitionsList);
+        mDisplay.setAdapter(adapter);
 
     }
 
     @Override
-    protected void onStart() {
-        i = getIntent();
-        mode = i.getStringExtra("MODE");
-        super.onStart();
-        String url = "https://apifootball.com/api/?action=get_leagues&APIkey=0a7af79b20e1367a88d2cc1ea922772ed88fb437ef3b6048229d65753ed139c1";
-        new QueryTask().execute(url);
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putStringArrayList(STATE_COMPETITON_LISTE, (ArrayList)competitionsList);
+        outState.putStringArrayList(STATE_ID_LISTE, (ArrayList)competitionIdList);
+        super.onSaveInstanceState(outState);
     }
+
 
     @Override
     public void onClick(View v){

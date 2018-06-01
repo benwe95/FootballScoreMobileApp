@@ -19,6 +19,8 @@ import javax.xml.transform.Result;
 public class DateChoiceActivity extends AppCompatActivity
         implements View.OnClickListener{
 
+    final static String TAG = "DATE";
+
     DatePicker from = null;
     DatePicker to = null;
     Button buttonDate = null;
@@ -29,6 +31,8 @@ public class DateChoiceActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.i(TAG, "Enter onCreate()");
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -59,7 +63,6 @@ public class DateChoiceActivity extends AppCompatActivity
         i = getIntent();
         competitionId = i.getStringExtra("COMPETITION");
         teamName = i.getStringExtra("TEAM");
-        Log.i("DEBUG", "Date - Team name: " + teamName);
 
     }
 
@@ -74,17 +77,30 @@ public class DateChoiceActivity extends AppCompatActivity
 
             String fromYear = String.valueOf(from.getYear());
             String fromMonth = String.valueOf(from.getMonth());
+            if (Integer.parseInt(fromMonth)<10){
+                fromMonth = "0"+fromMonth;
+            }
+
             String fromDay = String.valueOf(from.getDayOfMonth());
+            if (Integer.parseInt(fromDay)<10){
+                fromDay = "0"+fromDay;
+            }
 
             String fromDate = fromYear + "-" + fromMonth + "-" + fromDay;
 
             ResultActivity.putExtra("FROM", fromDate);
 
             String toYear = String.valueOf(to.getYear());
-            String toMonth = String.valueOf(to.getMonth());
-            Log.i("DATE", "Date - toMonth: "+String.valueOf(to.getMonth()));
-            String toDay = String.valueOf(to.getDayOfMonth());
 
+            String toMonth = String.valueOf(to.getMonth());
+            if (Integer.parseInt(toMonth)<10){
+                toMonth = "0"+toMonth;
+            }
+
+            String toDay = String.valueOf(to.getDayOfMonth());
+            if (Integer.parseInt(toDay)<10){
+                toDay = "0"+toDay;
+            }
             String toDate = toYear + "-" + toMonth + "-" + toDay;
 
             ResultActivity.putExtra("TO", toDate);
@@ -93,6 +109,29 @@ public class DateChoiceActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i(TAG, "Enter onStart()");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(TAG, "Enter onResume()");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i(TAG, "Enter onStop()");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "Enter onDestroy()");
+    }
 
     // Enable Up navigation to make a proper return on parent activity
     @Override

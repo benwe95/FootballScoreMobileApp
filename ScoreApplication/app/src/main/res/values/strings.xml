@@ -22,4 +22,8 @@
     <string name="titleResult">Result</string>
     <string name="titleFavorite">Favorite</string>
     <string name="titleSettings">Settings</string>
+    <string name="strDate">Choose a date</string>
+    <string name="strFrom">From</string>
+    <string name="strTo">To</string>
+    <string name="strBtnDate">SUBMIT</string>
 </resources>

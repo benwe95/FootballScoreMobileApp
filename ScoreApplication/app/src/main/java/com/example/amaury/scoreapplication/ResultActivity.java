@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.FileNameMap;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
@@ -29,6 +30,9 @@ import android.os.AsyncTask;
 
 public class ResultActivity extends AppCompatActivity {
 
+    final static String STATE_NAMES = "names";
+    final static String TAG = "RESULT";
+
     protected ListView mDisplay = null;
     private Intent i = null;
     private String competition_id = null;
@@ -41,8 +45,6 @@ public class ResultActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Log.i("DEBUG", "Result - Enter onCreate()");
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -62,34 +64,36 @@ public class ResultActivity extends AppCompatActivity {
                 break;
         }
 
+
+        if(savedInstanceState!=null){
+            names = savedInstanceState.getStringArrayList(STATE_NAMES);
+        }
+        else{
+            i = getIntent();
+            competitionId = i.getStringExtra("COMPETITION");
+            teamName = i.getStringExtra("TEAM");
+            from = i.getStringExtra("FROM");
+            to = i.getStringExtra("TO");
+            String url = String.format("https://apifootball.com/api/?action=get_events&from=%s&to=%s&league_id=%s&APIkey=0a7af79b20e1367a88d2cc1ea922772ed88fb437ef3b6048229d65753ed139c1",
+                    from, to, competitionId);
+            new QueryTask().execute(url);
+        }
+
         setContentView(R.layout.result_activity);
 
         mDisplay = (ListView) findViewById(R.id.simpletext);
 
-
-        i = getIntent();
-        competitionId = i.getStringExtra("COMPETITION");
-        teamName = i.getStringExtra("TEAM");
-        from = i.getStringExtra("FROM");
-        to = i.getStringExtra("TO");
-
-        Log.i("DEBUG", "Result - teamName: " +i.getStringExtra("TEAM"));
-
-
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(ResultActivity.this,
+                android.R.layout.simple_list_item_1, names);
+        mDisplay.setAdapter(adapter);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.i("DEBUG", "Result - onStart()");
-        Log.i("DEBUG", "Result - compet id: " + competitionId);
-        Log.i("DEBUG", "Result - from: " + from);
-        Log.i("DEBUG", "Result - to: " +to);
 
-        String url = String.format("https://apifootball.com/api/?action=get_events&from=%s&to=%s&league_id=%s&APIkey=0a7af79b20e1367a88d2cc1ea922772ed88fb437ef3b6048229d65753ed139c1",
-                from, to, competitionId);
-        Log.i("DEBUG", "http: " + url);
-        new QueryTask().execute(url);
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putStringArrayList(STATE_NAMES, (ArrayList)names);
+        super.onSaveInstanceState(outState);
     }
 
 
@@ -103,8 +107,6 @@ public class ResultActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            Log.i("DEBUG", "Result - QUERY - doInBackground()");
-
             String searchUrl = params[0];
             String queryResults = null;
             try {
@@ -112,8 +114,6 @@ public class ResultActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Log.i("DEBUG", "Result - QUERY - queryResults" + queryResults);
-
             return queryResults;
         }
 
@@ -123,9 +123,6 @@ public class ResultActivity extends AppCompatActivity {
 
                 try {
                     JSONArray matchs = new JSONArray(queryResults);
-
-                    Log.i("DEBUG", "Result - JSON matchs: " + matchs);
-
 
                     for (int i = 0; i < matchs.length(); i++) {
                         JSONObject team = matchs.getJSONObject(i);

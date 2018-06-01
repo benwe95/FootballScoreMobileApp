@@ -35,6 +35,11 @@ import android.os.Environment;
 
 public class TeamChoiceActivity extends AppCompatActivity implements View.OnClickListener{
 
+    // State variables
+    static final String STATE_COMPETITION_ID = "competition_id";
+    static final String STATE_MODE = "mode";
+    static final String STATE_TEAMS = "teams_names";
+
     // Layout variable
     protected ListView mDisplay = null;
     private Button buttonTeam = null;
@@ -55,8 +60,6 @@ public class TeamChoiceActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
-        Log.i("DEBUG", "Enter onCreate()");
-
         // Set the theme
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String theme = sharedPreferences.getString("color", "");
@@ -75,18 +78,12 @@ public class TeamChoiceActivity extends AppCompatActivity implements View.OnClic
                 break;
         }
 
-
-        Log.i("DEBUG", "savedInstanceState: " + savedInstanceState);
-
+        /* Check if the activity has a previous state saved */
         if(savedInstanceState != null) {
-            if(savedInstanceState.containsKey("competition_id_save")) {
-                competition_id = savedInstanceState.getString("competition_id_save");
-                mode = savedInstanceState.getString("mode_save");
-                /*names = savedInstanceState.getStringArrayList("names_save");
-                // Create the adaptater and give it to the adaptaterView
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(TeamChoiceActivity.this,
-                        android.R.layout.simple_list_item_single_choice, names);
-                mDisplay.setAdapter(adapter);*/
+            if(savedInstanceState.containsKey(STATE_COMPETITION_ID)) {
+                competition_id = savedInstanceState.getString(STATE_COMPETITION_ID);
+                mode = savedInstanceState.getString(STATE_MODE);
+                names = savedInstanceState.getStringArrayList(STATE_TEAMS);
             }
         }else{
             // Get data from the intent
@@ -98,7 +95,6 @@ public class TeamChoiceActivity extends AppCompatActivity implements View.OnClic
             new QueryTask().execute(output);
         }
 
-
         // Set the layout and the listenener
         setContentView(R.layout.lorem_activity);
 
@@ -107,21 +103,13 @@ public class TeamChoiceActivity extends AppCompatActivity implements View.OnClic
         buttonTeam = (Button) findViewById(R.id.buttonTeamChoice);
         buttonTeam.setOnClickListener(this);
 
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(TeamChoiceActivity.this,
+                android.R.layout.simple_list_item_single_choice, names);
+        mDisplay.setAdapter(adapter);
+
         // File to save favorite (if favorite mode)
         file = new File(Environment.getExternalStorageDirectory().getPath() + "/Android/data/ " + getPackageName() + "/files/" + destinationFile);
     }
-
-//
-//    @Override
-//    protected void onStart(){
-//        super.onStart();
-//        Log.i("DEBUG", "Enter onStart()");
-//        Log.i("DEBUG", "intent i: " + i);
-//        Log.i("DEBUG", "competition_id: " + competition_id);
-//        String output = String.format("https://apifootball.com/api/?action=get_standings&league_id=%s&APIkey=0a7af79b20e1367a88d2cc1ea922772ed88fb437ef3b6048229d65753ed139c1",
-//                competition_id);
-//        new QueryTask().execute(output);
-//    }
 
 
     @Override
@@ -196,26 +184,11 @@ public class TeamChoiceActivity extends AppCompatActivity implements View.OnClic
      */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        Log.i("DEBUG", "Enter onSaveInstanceState method");
-        outState.putString("comeptition_id_save", competition_id);
-        outState.putString("mode_save", mode);
-        outState.putStringArrayList("names_save", (ArrayList)names);
-
-        Log.i("DEBUG", "outState: "+ outState);
+        outState.putString(STATE_COMPETITION_ID, competition_id);
+        outState.putString(STATE_MODE, mode);
+        outState.putStringArrayList(STATE_TEAMS, (ArrayList)names);
 
         super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.i("DEBUG", "Enter onStop()");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.i("DEBUG", "Enter onDestroy()");
     }
 
 
