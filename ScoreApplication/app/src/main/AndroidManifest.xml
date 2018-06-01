@@ -26,27 +26,47 @@
 
         <activity
             android:name=".ChampChoiceActivity"
-            android:label="ScoreApplication" >
+            android:label="@string/titleChamp"
+            android:launchMode="singleTop"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".TeamChoiceActivity"
-            android:label="ScoreApplication" >
+            android:label="@string/titleTeam"
+            android:launchMode="singleTop"
+            android:parentActivityName=".ChampChoiceActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ChampChoiceActivity" />
         </activity>
         <activity
             android:name=".DateChoiceActivity"
-            android:label="ScoreApplication" >
+            android:label="@string/titleDate"
+            android:launchMode="singleTop"
+            android:parentActivityName=".TeamChoiceActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".TeamChoiceActivity" />
         </activity>
         <activity
             android:name=".ResultActivity"
-            android:label="ScoreApplication" >
+            android:label="@string/titleResult"
+            android:launchMode="singleTop"
+            android:parentActivityName=".DateChoiceActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".DateChoiceActivity" />
         </activity>
         <activity
             android:name=".FavoriteActivity"
-            android:label="ScoreApplication" >
+            android:label="@string/titleFavorite" >
         </activity>
         <activity
             android:name=".SettingsActivity"
-            android:label="Settings"
+            android:label="@string/titleSettings"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -94,6 +94,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
                 .unregisterOnSharedPreferenceChangeListener(this);
     }
 
+    /* Handle the events associated to the buttons */
     @Override
     public void onClick(View v) {
 
@@ -144,5 +145,13 @@ public class MainActivity extends Activity implements View.OnClickListener,
         if (key.equals("color")) {
 
         }
+    }
+
+
+    void updateDatabase(){
+
+        DatabaseManager databaseManager = new DatabaseManager(this);
+
+
     }
 }

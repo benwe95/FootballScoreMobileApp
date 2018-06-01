@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ScoreApplication</string>
+    <string name="action_settings">Réglages</string>
+    <string name="buttonSearch">Faire une recherche</string>
+    <string name="buttonFavorite">Favoris</string>
+    <string name="hello">Bienvenue sur MyScore</string>
+    <string name="competitionChoice">Choisissez une compétition</string>
+    <string name="championship">Championnat</string>
+    <string name="ligue2">Ligue 2</string>
+    <string name="dateChoice">Choisissez une date</string>
+    <string name="from">De</string>
+    <string name="to">Jusque</string>
+    <string name="submit">Envoyer</string>
+    <string name="AddFavorite">Ajouter aux favoris</string>
+    <string name="buttonOffline">Hors ligne</string>
+    <string name="offline_info">Mode hors ligne</string>
+    <string name="offline_button_countries">Pays</string>
+</resources>

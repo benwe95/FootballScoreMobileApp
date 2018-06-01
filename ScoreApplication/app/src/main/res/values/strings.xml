@@ -6,7 +6,7 @@
     <string name="hello">Welcome on MyScore</string>
     <string name="competitionChoice"> Choose a competition </string>
     <string name="championship"> Championship </string>
-    <string name="ligue2"> Ligue 2 </string>
+    <string name="ligue2">League 2</string>
     <string name="dateChoice"> Choose a date </string>
     <string name="from"> From </string>
     <string name="to"> To </string>
@@ -16,4 +16,10 @@
     <string name="buttonOffline">Offline</string>
     <string name="offline_info">Offline Mode</string>
     <string name="offline_button_countries">Countries</string>
+    <string name="titleChamp">Championships</string>
+    <string name="titleTeam">Teams</string>
+    <string name="titleDate">Date</string>
+    <string name="titleResult">Result</string>
+    <string name="titleFavorite">Favorite</string>
+    <string name="titleSettings">Settings</string>
 </resources>

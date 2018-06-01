@@ -11,7 +11,7 @@ import android.util.Log;
 
 public class DatabaseManager extends SQLiteOpenHelper {
 
-    private static final String DATABSE_NAME = "Save.db";
+    private static final String DATABSE_NAME = "ScoreApp.db";
     private static final int DATABASE_VERSION = 1;
 
     public DatabaseManager(Context context) {

@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;;
 import android.widget.Toast;
@@ -39,6 +42,8 @@ public class ResultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Log.i("DEBUG", "Result - Enter onCreate()");
+
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         String theme = sharedPreferences.getString("color", "");
@@ -68,13 +73,22 @@ public class ResultActivity extends AppCompatActivity {
         from = i.getStringExtra("FROM");
         to = i.getStringExtra("TO");
 
+        Log.i("DEBUG", "Result - teamName: " +i.getStringExtra("TEAM"));
+
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        Log.i("DEBUG", "Result - onStart()");
+        Log.i("DEBUG", "Result - compet id: " + competitionId);
+        Log.i("DEBUG", "Result - from: " + from);
+        Log.i("DEBUG", "Result - to: " +to);
+
         String url = String.format("https://apifootball.com/api/?action=get_events&from=%s&to=%s&league_id=%s&APIkey=0a7af79b20e1367a88d2cc1ea922772ed88fb437ef3b6048229d65753ed139c1",
                 from, to, competitionId);
+        Log.i("DEBUG", "http: " + url);
         new QueryTask().execute(url);
     }
 
@@ -89,6 +103,8 @@ public class ResultActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
+            Log.i("DEBUG", "Result - QUERY - doInBackground()");
+
             String searchUrl = params[0];
             String queryResults = null;
             try {
@@ -96,6 +112,8 @@ public class ResultActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            Log.i("DEBUG", "Result - QUERY - queryResults" + queryResults);
+
             return queryResults;
         }
 
@@ -105,6 +123,9 @@ public class ResultActivity extends AppCompatActivity {
 
                 try {
                     JSONArray matchs = new JSONArray(queryResults);
+
+                    Log.i("DEBUG", "Result - JSON matchs: " + matchs);
+
 
                     for (int i = 0; i < matchs.length(); i++) {
                         JSONObject team = matchs.getJSONObject(i);
@@ -149,5 +170,16 @@ public class ResultActivity extends AppCompatActivity {
                 urlConnection.disconnect();
             }
         }
+    }
+
+
+    // Enable Up navigation to make a proper return on parent activity
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == android.R.id.home) {
+            NavUtils.navigateUpFromSameTask(this);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
